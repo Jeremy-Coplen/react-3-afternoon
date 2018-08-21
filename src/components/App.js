@@ -50,8 +50,9 @@ class App extends Component {
   createPost(text) {
     axios.post("https://practiceapi.devmountain.com/api/posts", {text})
     .then(response => {
+      console.log(response)
       this.setState({
-        props: response.data
+        posts: response.data
       })
     })
   }

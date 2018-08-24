@@ -18,6 +18,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind( this );
     this.deletePost = this.deletePost.bind( this );
     this.createPost = this.createPost.bind( this );
+    this.SearchPost = this.SearchPost.bind(this)
   }
   
   componentDidMount() {
@@ -50,11 +51,30 @@ class App extends Component {
   createPost(text) {
     axios.post("https://practiceapi.devmountain.com/api/posts", {text})
     .then(response => {
-      console.log(response)
       this.setState({
         posts: response.data
       })
     })
+  }
+
+  SearchPost(text) {
+    const arr = this.state.posts.filter((item) => item.text.includes(text))
+
+    if(text === "") {
+      console.log(arr)
+      axios.get("https://practiceapi.devmountain.com/api/posts")
+    .then(response => {
+      this.setState({
+        posts: response.data
+      })
+    })
+    }
+
+    else{
+      this.setState({
+        posts: arr
+      })
+    }
   }
 
   render() {
@@ -62,7 +82,8 @@ class App extends Component {
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header 
+        searchPostFn={this.SearchPost}/>
 
         <section className="App__content">
 
